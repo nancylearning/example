@@ -1,0 +1,35 @@
+function updateelement(p_Btn) {
+    var radWindow = $telerik.$("[id$='RadEditDescr']").get(0).control;
+    alert("radWindow Text content: \n \n" + radWindow.get_text());
+    var radWindowelement = $telerik.$("[id$='RadEditElement']").get(0).control;
+   alert("radWindowelement Text content: \a \a" + radWindowelement.get_text());
+    var radwindowstandard = $telerik.$("[id$='RadEditStandard']").get(0).control;
+   alert("radwindowstandard " + radwindowstandard.get_text());
+    var lweight = $("#txtWeight").val();
+    var ljobelementid = $("#hfjobelement2").val();
+    //console.log("hfjobelementid " + ljobelementid);
+    var formData = new FormData();
+    formData.append('pjobelementid', ljobelementid);
+    formData.append('ptitle',radWindowelement.get_text());
+    formData.append('pdescription', radWindow.get_text());
+    formData.append('pweight', lweight);
+    formData.append('pstandard', radwindowstandard.get_text());
+    //var jsonDataje = JSON.stringify({ 'pjobelementid': ljobelementid, 'ptitle': radWindowelement.get_text(), 'pdescription': radWindow.get_text, 'pweight': lweight.get_text, 'pstandard': radwindowstandard.get_text })
+    //console.log('Before ajax jquery call jsonDataje' + JSON.stringify(jsonDataje));
+    $.ajax({
+        url: "/Handlers/jobelementupdate.ashx",
+        type: "POST",
+    
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(e) { console.log(e) },
+        error: onupdatejelementuccess 
+    });
+}
+function onupdatejobelementerror(response) {
+    console.log("Inside job element error" + JSON.stringify(response));
+    showMessage("Inside update Job Element Error " + JSON.stringify(response) );
+    return false;
+}
